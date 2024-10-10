@@ -25,10 +25,10 @@ namespace Permisos.Tests
         public async Task ConsultarModulos_ReturnsOkResult_WithListOfModulos()
         {
             // Arrange: Configurar el mock para devolver una lista de ModuloDto
-            var modulos = new List<ModuloDto>
+            var modulos = new List<ModuloResponseDto>
             {
-                new ModuloDto { Id = "1", Nombre = "Modulo 1", Descripcion = "Descripción del Módulo 1" },
-                new ModuloDto { Id = "2", Nombre = "Modulo 2", Descripcion = "Descripción del Módulo 2" }
+                new ModuloResponseDto { Id = "1", Nombre = "Modulo 1", Descripcion = "Descripción del Módulo 1" },
+                new ModuloResponseDto { Id = "2", Nombre = "Modulo 2", Descripcion = "Descripción del Módulo 2" }
             };
             _moduloServicioMock.Setup(servicio => servicio.ConsultarModulosAsync()).ReturnsAsync(modulos);
 
@@ -37,7 +37,7 @@ namespace Permisos.Tests
 
             // Assert: Verificar que el resultado es un OkObjectResult con los datos esperados
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<List<ModuloDto>>(okResult.Value);
+            var returnValue = Assert.IsType<List<ModuloResponseDto>>(okResult.Value);
             Assert.Equal(2, returnValue.Count);
         }
 
@@ -45,7 +45,7 @@ namespace Permisos.Tests
         public async Task ConsultarModuloPorId_ReturnsOkResult_WithSpecificModulo()
         {
             // Arrange: Configurar el mock para devolver un ModuloDto específico
-            var modulo = new ModuloDto { Id = "1", Nombre = "Modulo 1", Descripcion = "Descripción del Módulo 1" };
+            var modulo = new ModuloResponseDto { Id = "1", Nombre = "Modulo 1", Descripcion = "Descripción del Módulo 1" };
             _moduloServicioMock.Setup(servicio => servicio.ConsultarModuloPorIdAsync("1")).ReturnsAsync(modulo);
 
             // Act: Llamar al método ConsultarModuloPorId del controlador con el Id "1"
@@ -53,7 +53,7 @@ namespace Permisos.Tests
 
             // Assert: Verificar que el resultado es un OkObjectResult con el módulo esperado
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<ModuloDto>(okResult.Value);
+            var returnValue = Assert.IsType<ModuloResponseDto>(okResult.Value);
             Assert.Equal("Modulo 1", returnValue.Nombre);
         }
 
@@ -61,7 +61,7 @@ namespace Permisos.Tests
         public async Task ConsultarModuloPorId_ThrowsNotFoundException_WhenModuloDoesNotExist()
         {
             // Arrange: Configurar el mock para devolver null cuando el Id no existe
-            _moduloServicioMock.Setup(servicio => servicio.ConsultarModuloPorIdAsync("3")).ReturnsAsync((ModuloDto)null);
+            _moduloServicioMock.Setup(servicio => servicio.ConsultarModuloPorIdAsync("3")).ReturnsAsync((ModuloResponseDto)null);
 
             // Act & Assert: Verificar que se lanza la excepción NotFoundException
             await Assert.ThrowsAsync<NotFoundException>(() => _controller.ConsultarModuloPorId("3"));
@@ -71,7 +71,7 @@ namespace Permisos.Tests
         public async Task Adicionar_ReturnsCreatedAtAction_WithCreatedModulo()
         {
             // Arrange: Configurar el mock para devolver el nuevo ModuloDto
-            var moduloDto = new ModuloDto { Id = "3", Nombre = "Modulo 3", Descripcion = "Nuevo Módulo" };
+            var moduloDto = new ModuloResponseDto { Id = "3", Nombre = "Modulo 3", Descripcion = "Nuevo Módulo" };
             _moduloServicioMock.Setup(servicio => servicio.AdicionarModuloAsync(moduloDto)).ReturnsAsync(moduloDto);
 
             // Act: Llamar al método Adicionar del controlador
@@ -79,7 +79,7 @@ namespace Permisos.Tests
 
             // Assert: Verificar que el resultado es CreatedAtAction con el módulo creado
             var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
-            var returnValue = Assert.IsType<ModuloDto>(createdAtActionResult.Value);
+            var returnValue = Assert.IsType<ModuloResponseDto>(createdAtActionResult.Value);
             Assert.Equal("3", returnValue.Id);
         }
 
@@ -87,7 +87,7 @@ namespace Permisos.Tests
         public async Task ActualizarModulo_ReturnsNoContent_WhenUpdateIsSuccessful()
         {
             // Arrange: No se necesita configurar el mock, ya que no se devuelve ningún valor
-            var moduloDto = new ModuloDto { Id = "1", Nombre = "Modulo Actualizado", Descripcion = "Descripción Actualizada" };
+            var moduloDto = new ModuloResponseDto { Id = "1", Nombre = "Modulo Actualizado", Descripcion = "Descripción Actualizada" };
             _moduloServicioMock.Setup(servicio => servicio.ActualizarModuloAsync(moduloDto)).Returns(Task.CompletedTask);
 
             // Act: Llamar al método ActualizarModulo del controlador
@@ -101,7 +101,7 @@ namespace Permisos.Tests
         public async Task EliminarModulo_ReturnsNoContent_WhenDeleteIsSuccessful()
         {
             // Arrange: Configurar el mock para devolver un ModuloDto y luego eliminarlo
-            var moduloDto = new ModuloDto { Id = "1", Nombre = "Modulo a Eliminar", Descripcion = "Descripción del Módulo" };
+            var moduloDto = new ModuloResponseDto { Id = "1", Nombre = "Modulo a Eliminar", Descripcion = "Descripción del Módulo" };
             _moduloServicioMock.Setup(servicio => servicio.ConsultarModuloPorIdAsync("1")).ReturnsAsync(moduloDto);
             _moduloServicioMock.Setup(servicio => servicio.EliminarModuloAsync("1")).Returns(Task.CompletedTask);
 
@@ -116,7 +116,7 @@ namespace Permisos.Tests
         public async Task EliminarModulo_ThrowsNotFoundException_WhenModuloDoesNotExist()
         {
             // Arrange: Configurar el mock para devolver null cuando el Id no existe
-            _moduloServicioMock.Setup(servicio => servicio.ConsultarModuloPorIdAsync("4")).ReturnsAsync((ModuloDto)null);
+            _moduloServicioMock.Setup(servicio => servicio.ConsultarModuloPorIdAsync("4")).ReturnsAsync((ModuloResponseDto)null);
 
             // Act & Assert: Verificar que se lanza la excepción NotFoundException
             await Assert.ThrowsAsync<NotFoundException>(() => _controller.EliminarModulo("4"));

@@ -3,13 +3,10 @@ using Permisos.Aplicacion.DTOs;
 
 namespace Permisos.Aplicacion.Validadores
 {
-    public class ModuloDtoValidador : AbstractValidator<ModuloDto>
+    public class ModuloDtoValidador : AbstractValidator<ModuloRequestDto>
     {
         public ModuloDtoValidador()
         {
-            RuleFor(x => x.Id)
-                .NotEmpty().WithMessage("El Id es requerido.");
-
             RuleFor(x => x.Nombre)
                 .NotEmpty().WithMessage("El Nombre es requerido.")
                 .MaximumLength(100).WithMessage("El Nombre no debe exceder 100 caracteres.");

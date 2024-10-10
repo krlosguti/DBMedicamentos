@@ -9,10 +9,10 @@ namespace Permisos.Aplicacion.Interfaces
 {
     public interface IModuloServicio
     {
-        Task<IEnumerable<ModuloDto>> ConsultarModulosAsync();
-        Task<ModuloDto> ConsultarModuloPorIdAsync(string id);
-        Task<ModuloDto> AdicionarModuloAsync(ModuloDto moduloDto);
-        Task ActualizarModuloAsync(ModuloDto moduloDto);
+        Task<IEnumerable<ModuloResponseDto>> ConsultarModulosAsync();
+        Task<ModuloResponseDto> ConsultarModuloPorIdAsync(string id);
+        Task<ModuloResponseDto> AdicionarModuloAsync(ModuloRequestDto moduloDto);
+        Task ActualizarModuloAsync(ModuloResponseDto moduloDto);
         Task EliminarModuloAsync(string id);
     }
 }

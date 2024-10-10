@@ -1,4 +1,4 @@
-using DBMedicamentos.Data;
+using Common.Database.Domain.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,13 +1,13 @@
-﻿using DBMedicamentos.Data;
-using DBMedicamentos.Models.Permisos;
+﻿using Common.Database.Domain.Data;
+using Common.Database.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Permisos.Dominio.Repositorios;
 
 namespace Permisos.Infraestructura.Repositorios
 {
-    public class ModuloRepositorio(IAplicacionDbContext contexto) : IModuloRepositorio
+    public class ModuloRepositorio(AplicacionDbContext contexto) : IModuloRepositorio
     {
-        private readonly IAplicacionDbContext _contexto = contexto;
+        private readonly AplicacionDbContext _contexto = contexto;
         public async Task<IEnumerable<Modulo>> ConsultarTodosAsync()
         {
             return await _contexto.Modulos.ToListAsync();
@@ -30,6 +30,7 @@ namespace Permisos.Infraestructura.Repositorios
         public async Task EliminarAsync(string id)
         {
             var modulo = await ConsultarPorIdAsync(id);
+            if (modulo == null) return;
             _contexto.Modulos.Remove(modulo);
             await _contexto.SaveChangesAsync();
         }

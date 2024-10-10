@@ -1,5 +1,4 @@
-﻿using DBMedicamentos.Models.Permisos;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Permisos.Aplicacion.DTOs;
 using Permisos.Aplicacion.Excepciones;
 using Permisos.Aplicacion.Interfaces;
@@ -29,14 +28,14 @@ namespace Permisos.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Adicionar(ModuloDto moduloDto)
+        public async Task<IActionResult> Adicionar(ModuloRequestDto moduloDto)
         {
             var nuevoModulo = await _servicio.AdicionarModuloAsync(moduloDto);
             return CreatedAtAction(nameof(ConsultarModuloPorId), new { id = nuevoModulo.Id }, nuevoModulo);
         }
 
         [HttpPut]
-        public async Task<IActionResult> ActualizarModulo(ModuloDto moduloDto)
+        public async Task<IActionResult> ActualizarModulo(ModuloResponseDto moduloDto)
         {
             await _servicio.ActualizarModuloAsync(moduloDto);
             return NoContent();

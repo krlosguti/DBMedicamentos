@@ -1,10 +1,10 @@
+using Autorizacion.Aplicacion.Interfaces;
+using Autorizacion.Aplicacion.Servicios;
+using Autorizacion.Dominio.Repositorios;
+using Autorizacion.Infraestructura.Repositorios;
 using Common.Database.Domain.Data;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using Permisos.Aplicacion.Interfaces;
-using Permisos.Aplicacion.Servicios;
-using Permisos.Dominio.Repositorios;
-using Permisos.Infraestructura.Repositorios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +19,13 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddFluentValidationAutoValidation();
 
-builder.Services.AddScoped<IModuloRepositorio, ModuloRepositorio>();
-builder.Services.AddScoped<IModuloServicio, ModuloServicio>();
+builder.Services.AddScoped<IRolRepositorio, RolRepositorio>();
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+builder.Services.AddScoped<IUsuarioRolRepositorio, UsuarioRolRepositorio>();
+
+builder.Services.AddScoped<IRolServicio, RolServicio>();
+builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
+builder.Services.AddScoped<IUsuarioRolServicio, UsuarioRolServicio>();
 
 var app = builder.Build();
 
@@ -30,6 +35,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

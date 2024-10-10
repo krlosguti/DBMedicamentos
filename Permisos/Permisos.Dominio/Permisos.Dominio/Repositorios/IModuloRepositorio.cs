@@ -1,4 +1,4 @@
-﻿using DBMedicamentos.Models.Permisos;
+﻿using Common.Database.Domain.Models;
 
 namespace Permisos.Dominio.Repositorios
 {

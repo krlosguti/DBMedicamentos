@@ -1,4 +1,4 @@
-﻿using DBMedicamentos.Models.Permisos;
+﻿using Common.Database.Domain.Models;
 using Mapster;
 using Permisos.Aplicacion.DTOs;
 using Permisos.Aplicacion.Interfaces;
@@ -10,26 +10,26 @@ namespace Permisos.Aplicacion.Servicios
     {
         private readonly IModuloRepositorio _repositorio = repositorio;
 
-        public async Task<IEnumerable<ModuloDto>> ConsultarModulosAsync()
+        public async Task<IEnumerable<ModuloResponseDto>> ConsultarModulosAsync()
         {
             var modulos = await _repositorio.ConsultarTodosAsync();
-            return modulos.Adapt<IEnumerable<ModuloDto>>();
+            return modulos.Adapt<IEnumerable<ModuloResponseDto>>();
         }
 
-        public async Task<ModuloDto> ConsultarModuloPorIdAsync(string id)
+        public async Task<ModuloResponseDto> ConsultarModuloPorIdAsync(string id)
         {
             var modulo = await _repositorio.ConsultarPorIdAsync(id);
-            return modulo.Adapt<ModuloDto>();
+            return modulo.Adapt<ModuloResponseDto>();
         }
 
-        public async Task<ModuloDto> AdicionarModuloAsync(ModuloDto moduloDto)
+        public async Task<ModuloResponseDto> AdicionarModuloAsync(ModuloRequestDto moduloDto)
         {
             var modulo = moduloDto.Adapt<Modulo>();
             var nuevoModulo = await _repositorio.AdicionarAsync(modulo);
-            return nuevoModulo.Adapt<ModuloDto>();
+            return nuevoModulo.Adapt<ModuloResponseDto>();
         }
 
-        public async Task ActualizarModuloAsync(ModuloDto moduloDto)
+        public async Task ActualizarModuloAsync(ModuloResponseDto moduloDto)
         {
             var modulo = moduloDto.Adapt<Modulo>();
             await _repositorio.ActualizarAsync(modulo);
